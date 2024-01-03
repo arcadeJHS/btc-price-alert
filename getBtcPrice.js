@@ -9,7 +9,7 @@ const requestPrice = async () => {
 
     const sendAlert = (btcPrice > 39000 || btcPrice < 36000);
 
-    echo `BTC Price:${btcPrice}`;
+    console.log(`BTC Price:${btcPrice}`);
 
     return sendAlert;
 };
