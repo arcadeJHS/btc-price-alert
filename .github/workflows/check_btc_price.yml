@@ -1,7 +1,5 @@
-name: Playwright Tests
-on: 
-  # push:
-  #   branches: [ main, master ]
+name: Check BTC price
+on:
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
@@ -26,15 +24,6 @@ jobs:
         node-version: 21
     - name: Install dependencies
       run: npm ci
-    # - name: Install Playwright Browsers
-    #   run: npx playwright install --with-deps
-    # - name: Running Playwright tests
-    #   id: playwright-test
-    #   run: |
-    #     BTC_PRICE=$(npx playwright test | grep "BTC Price:")
-    #     echo "btcPrice<<EOF" >> $GITHUB_OUTPUT
-    #     echo "$BTC_PRICE" >> $GITHUB_OUTPUT
-    #     echo "EOF" >> $GITHUB_OUTPUT
     - name: Getting BTC Price
       id: get-btc-price
       run: |
@@ -43,7 +32,7 @@ jobs:
         echo "btcPrice=$BTC_PRICE" >> $GITHUB_OUTPUT
     - name: send telegram message on test execution
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice <= 35000 || steps.get-btc-price.outputs.btcPrice >= 39000
+      if: steps.get-btc-price.outputs.btcPrice <= 100000
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}

@@ -1,4 +1,4 @@
-github actions, playwright, telegram, coinbase API 
+github actions, telegram, coinbase API 
 
 ## Useful links
 https://crontab.guru/every-30-minutes
