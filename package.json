@@ -1,0 +1,17 @@
+{
+  "name": "btc-price-alert",
+  "version": "1.0.0",
+  "description": "github actions, playwright, telegram, coinbase API",
+  "main": "index.js",
+  "scripts": {
+    "test:run": "npx playwright test",
+    "test:report": "npx playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.38.1",
+    "@types/node": "^20.7.0"
+  }
+}
