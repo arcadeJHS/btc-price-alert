@@ -1,13 +1,31 @@
 // const requestPrice = async () => {
-    const btcRatesApiUrl = "https://api.coinbase.com/v2/exchange-rates?currency=BTC";
+//     const btcRatesApiUrl = "https://api.coinbase.com/v2/exchange-rates?currency=BTC";
 
-    const rates = await fetch(btcRatesApiUrl);
+//     const rates = await fetch(btcRatesApiUrl);
 
-    const ratesJson = await rates.json();
+//     const ratesJson = await rates.json();
 
-    const btcPrice = parseFloat(ratesJson.data.rates.CHF);
+//     const btcPrice = ratesJson.data.rates.CHF;
 
-    return btcPrice;
+//     console.log(btcPrice);
+
+//     return btcPrice;
 // };
 
 // return requestPrice().then(price => parseFloat(price));
+
+
+const btcRatesApiUrl = "https://api.coinbase.com/v2/exchange-rates?currency=BTC";
+let price = 0;
+
+fetch(btcRatesApiUrl).then(response => response.json()).then(data => {
+    const btcPrice = data.data.rates.CHF;
+
+    // console.log(btcPrice);
+
+    return btcPrice;
+}).then(price => {
+    price = parseFloat(price);
+});
+
+return price;
