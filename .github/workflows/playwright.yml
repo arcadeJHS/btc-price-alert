@@ -41,4 +41,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-            CHECK BTC PRICE: ${{ steps.playwright-test.outputs.btcPrice }} CHF
+            CHECK ${{ steps.playwright-test.outputs.btcPrice }} CHF

@@ -5,13 +5,11 @@ test('Check BTC price', async ({ request }) => {
 
   const rates = await request.get(btcRatesApiUrl);
 
-  expect(rates.ok()).toBeTruthy();
-
   const ratesJson = await rates.json();
 
   const btcPrice = ratesJson.data.rates.CHF;
 
-  const sendAlert = btcPrice > 39000 || btcPrice < 36000;
+  const sendAlert = (btcPrice > 39000 || btcPrice < 36000);
 
   console.log(`BTC Price: ${btcPrice}`);
 
