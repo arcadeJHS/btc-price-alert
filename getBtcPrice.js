@@ -10,4 +10,4 @@ const requestPrice = async () => {
     return btcPrice;
 };
 
-return requestPrice().then((sendAlert) => sendAlert);
+return requestPrice().then(price => parseFloat(price));

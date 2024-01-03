@@ -39,7 +39,8 @@ jobs:
       id: get-btc-price
       run: |
         BTC_PRICE=$(node ./getBtcPrice.js)
-        echo "btcPrice=$BTC_PRICE" >> $GITHUB_OUTPUT
+    - run: echo "btcPrice=$BTC_PRICE" >> $GITHUB_OUTPUT
+    - run: echo "$BTC_PRICE"
     - name: send telegram message on test execution
       uses: appleboy/telegram-action@master
       if: steps.get-btc-price.outputs.btcPrice < 36000 || steps.get-btc-price.outputs.btcPrice > 39000
