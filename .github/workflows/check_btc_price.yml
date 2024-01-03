@@ -30,7 +30,7 @@ jobs:
         echo "btcPrice=$BTC_PRICE" >> $GITHUB_OUTPUT
     - name: send telegram message on test execution
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice <= 100000
+      if: steps.get-btc-price.outputs.btcPrice <= 35000 || steps.get-btc-price.outputs.btcPrice >= 39000
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
