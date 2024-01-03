@@ -32,7 +32,8 @@ jobs:
       id: playwright-test
       run: |
         BTC_PRICE=$(npx playwright test | grep "BTC Price:")
-        echo "{btcPrice}={$BTC_PRICE}" >> $GITHUB_OUTPUT
+        echo "BTC price: $BTC_PRICE"
+        echo "btcPrice=$BTC_PRICE" >> "$GITHUB_OUTPUT"
     - name: send telegram message on test execution
       uses: appleboy/telegram-action@master
       if: success()
@@ -40,4 +41,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-            CHECK ${{ steps.playwright-test.outputs.btcPrice }} CHF
+            ${{ steps.playwright-test.outputs.btcPrice }} CHF
