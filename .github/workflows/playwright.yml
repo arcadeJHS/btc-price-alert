@@ -48,4 +48,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-            ${{ steps.get-btc-price.outputs.btcPrice }} CHF
+          Check the BTC price: ${{ steps.get-btc-price.outputs.btcPrice }} CHF
