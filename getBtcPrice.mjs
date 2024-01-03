@@ -1,7 +1,7 @@
 const requestPrice = async () => {
     const btcRatesApiUrl = "https://api.coinbase.com/v2/exchange-rates?currency=BTC";
 
-    const rates = await fetch.get(btcRatesApiUrl);
+    const rates = await fetch(btcRatesApiUrl);
 
     const ratesJson = await rates.json();
 

@@ -38,7 +38,7 @@ jobs:
     - name: Getting BTC Price
       id: get-btc-price
       run: |
-        BTC_PRICE=$(node ./getBtcPrice.js)
+        BTC_PRICE=$(node ./getBtcPrice.mjs)
         echo "btcPrice=$BTC_PRICE" >> $GITHUB_OUTPUT
     - name: send telegram message on test execution
       uses: appleboy/telegram-action@master
