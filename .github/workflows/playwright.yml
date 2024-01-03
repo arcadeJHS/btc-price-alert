@@ -35,7 +35,6 @@ jobs:
         echo "::set-output name=btcPrice::$BTC_PRICE"
     - name: send telegram message on test execution
       uses: appleboy/telegram-action@master
-      # if: failure()
       if: success()
       with:
         to: ${{ secrets.TELEGRAM_TO }}
