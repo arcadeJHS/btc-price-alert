@@ -1,4 +1,4 @@
-const requestPrice = async () => {
+// const requestPrice = async () => {
     const btcRatesApiUrl = "https://api.coinbase.com/v2/exchange-rates?currency=BTC";
 
     const rates = await fetch(btcRatesApiUrl);
@@ -8,6 +8,6 @@ const requestPrice = async () => {
     const btcPrice = parseFloat(ratesJson.data.rates.CHF);
 
     return btcPrice;
-};
+// };
 
-return requestPrice().then(price => parseFloat(price));
+// return requestPrice().then(price => parseFloat(price));
