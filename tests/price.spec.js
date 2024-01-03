@@ -13,5 +13,5 @@ test('Check BTC price', async ({ request }) => {
 
   console.log(`BTC Price: ${btcPrice}`);
 
-  expect(sendAlert).toBeTruthy();
+  expect(sendAlert).toEqual(true);
 });
