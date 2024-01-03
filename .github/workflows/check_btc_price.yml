@@ -22,8 +22,6 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 21
-    - name: Install dependencies
-      run: npm ci
     - name: Getting BTC Price
       id: get-btc-price
       run: |
