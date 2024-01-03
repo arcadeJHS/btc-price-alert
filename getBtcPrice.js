@@ -26,6 +26,6 @@ fetch(btcRatesApiUrl).then(response => response.json()).then(data => {
     return btcPrice;
 }).then(price => {
     price = parseFloat(price);
+    console.log(price);
+    return price;
 });
-
-return price;
