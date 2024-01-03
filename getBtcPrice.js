@@ -7,11 +7,7 @@ const requestPrice = async () => {
 
     const btcPrice = parseFloat(ratesJson.data.rates.CHF);
 
-    const sendAlert = (btcPrice > 39000 || btcPrice < 36000);
-
-    console.log(`BTC Price:${btcPrice}`);
-
-    return sendAlert;
+    return btcPrice;
 };
 
-return requestPrice().then((sendAlert) => sendAlert);
+return requestPrice().then((btcPrice) => btcPrice);
