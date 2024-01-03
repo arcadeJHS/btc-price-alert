@@ -32,8 +32,7 @@ jobs:
       id: playwright-test
       run: |
         BTC_PRICE=$(npx playwright test | grep "BTC Price:")
-        echo "BTC price: $BTC_PRICE"
-        echo "btcPrice=$BTC_PRICE" >> "$GITHUB_OUTPUT"
+        echo "{btcPrice}={$BTC_PRICE}" >> "$GITHUB_OUTPUT"
     - name: send telegram message on test execution
       uses: appleboy/telegram-action@master
       if: success()
