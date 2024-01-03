@@ -3,7 +3,7 @@ on:
   # push:
   #   branches: [ main, master ]
   schedule:
-    - cron: '*/1 * * * *'
+    - cron: '*/10 * * * *'
   workflow_dispatch:
     inputs:
       logLevel:
@@ -28,9 +28,12 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - name: send telegram message on push
+    - name: Running Playwright tests
+      id: playwright-test
+      run: |
+        BTC_PRICE=$(npx playwright test | grep "BTC Price:")
+        echo "::set-output name=btcPrice::$BTC_PRICE"
+    - name: send telegram message on test execution
       uses: appleboy/telegram-action@master
       # if: failure()
       if: success()
@@ -38,4 +41,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          CHECK BTC PRICE!
+            CHECK BTC PRICE! ${{ steps.playwright-test.outputs.btcPrice }}
