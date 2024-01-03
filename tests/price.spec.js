@@ -11,7 +11,7 @@ test('Check BTC price', async ({ request }) => {
 
   const sendAlert = (btcPrice > 39000 || btcPrice < 36000);
 
-  expect(sendAlert).toEqual(true);
+  //console.log(`BTC Price:${btcPrice}`);
 
-  return btcPrice;
+  expect(sendAlert).toEqual(true);
 });

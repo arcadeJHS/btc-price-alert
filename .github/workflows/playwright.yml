@@ -26,12 +26,19 @@ jobs:
         node-version: 18
     - name: Install dependencies
       run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Running Playwright tests
-      id: playwright-test
+    # - name: Install Playwright Browsers
+    #   run: npx playwright install --with-deps
+    # - name: Running Playwright tests
+    #   id: playwright-test
+    #   run: |
+    #     BTC_PRICE=$(npx playwright test | grep "BTC Price:")
+    #     echo "btcPrice<<EOF" >> $GITHUB_OUTPUT
+    #     echo "$BTC_PRICE" >> $GITHUB_OUTPUT
+    #     echo "EOF" >> $GITHUB_OUTPUT
+    - name: Getting BTC Price
+      id: get-btc-price
       run: |
-        BTC_PRICE=$(npx playwright test)
+        BTC_PRICE=$(node ./getBtcPrice.js)
         echo "btcPrice=$BTC_PRICE" >> $GITHUB_OUTPUT
     - name: send telegram message on test execution
       uses: appleboy/telegram-action@master
@@ -40,4 +47,4 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-            ${{ steps.playwright-test.outputs.btcPrice }} CHF
+            ${{ steps.get-btc-price.outputs.btcPrice }} CHF
