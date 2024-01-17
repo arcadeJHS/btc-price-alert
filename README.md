@@ -20,5 +20,6 @@ https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/usin
 https://maciekpalmowski.dev/buying-a-bicycle-using-playwright/
 https://github.com/palmiak/bike-check/tree/master
 https://remysharp.com/2023/09/11/getting-daily-notifications-my-parent-is-okay
-
 https://core.telegram.org/bots/api#authorizing-your-bot
+https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idif
+https://docs.github.com/en/actions/learn-github-actions/expressions
