@@ -31,7 +31,7 @@ jobs:
 
     - name: send telegram message on BTC lowering
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice <= 71000
+      if: steps.get-btc-price.outputs.btcPrice <= 74000
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
@@ -40,7 +40,7 @@ jobs:
 
     - name: send telegram message on BTC rising
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice >= 75000
+      if: steps.get-btc-price.outputs.btcPrice >= 77000
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
