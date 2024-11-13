@@ -36,58 +36,22 @@ jobs:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          BTC price is DOWN - LOOSING: ${{ steps.get-btc-price.outputs.btcPrice }} USD
+          [BTC] - !!! WARNING !!! - Lowest price reached - LOOSING: ${{ steps.get-btc-price.outputs.btcPrice }} USD
 
     - name: send telegram message on BTC 85000
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice >= 85000 && steps.get-btc-price.outputs.btcPrice < 86000
+      if: steps.get-btc-price.outputs.btcPrice >= 80950 && steps.get-btc-price.outputs.btcPrice < 90000
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          BTC price range [85.000 - 86.000]: ${{ steps.get-btc-price.outputs.btcPrice }} USD
-
-    - name: send telegram message on BTC 86000
-      uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice >= 86000 && steps.get-btc-price.outputs.btcPrice < 87000
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          BTC price range [86.000 - 87.000]: ${{ steps.get-btc-price.outputs.btcPrice }} USD
-
-    - name: send telegram message on BTC 87000
-      uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice >= 87000 && steps.get-btc-price.outputs.btcPrice < 88000
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          BTC price range [87.000 - 88.000]: ${{ steps.get-btc-price.outputs.btcPrice }} USD
-
-    - name: send telegram message on BTC 88000
-      uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice >= 88000 && steps.get-btc-price.outputs.btcPrice < 89000
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          BTC price range [88.000 - 89.000]: ${{ steps.get-btc-price.outputs.btcPrice }} USD
-
-    - name: send telegram message on BTC 89000
-      uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice >= 89000 && steps.get-btc-price.outputs.btcPrice < 90000
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          BTC price range [89.000 - 90.000]: ${{ steps.get-btc-price.outputs.btcPrice }} USD
+          [BTC] - Current price: ${{ steps.get-btc-price.outputs.btcPrice }} USD
 
     - name: send telegram message on BTC rising to ATH
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice >= 90000
+      if: steps.get-btc-price.outputs.btcPrice >= 91700
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          BTC - New ATH: ${{ steps.get-btc-price.outputs.btcPrice }} USD
+          [BTC] - \o/ New ATH \o/ ${{ steps.get-btc-price.outputs.btcPrice }} USD
