@@ -38,7 +38,7 @@ jobs:
         message: |
           [BTC] - !!! WARNING !!! - Lowest price reached - LOOSING: ${{ steps.get-btc-price.outputs.btcPrice }} USD
 
-    - name: send telegram message on BTC 85000
+    - name: send telegram message on BTC price
       uses: appleboy/telegram-action@master
       if: steps.get-btc-price.outputs.btcPrice >= 80950 && steps.get-btc-price.outputs.btcPrice < 90000
       with:
