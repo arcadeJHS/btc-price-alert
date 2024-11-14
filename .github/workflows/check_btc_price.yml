@@ -24,10 +24,28 @@ jobs:
         node-version: 21
     - name: Getting BTC Price
       id: get-btc-price
+      env:
+        BTC_ATH: ${{ vars.BTC_ATH }}
+        TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+        REPO: ${{ github.repository }}
       run: |
         BTC_PRICE=$(node ./getBtcPrice.js)
-        echo $BTC_PRICE
         echo "btcPrice=$BTC_PRICE" >> $GITHUB_OUTPUT
+
+        if (( $(echo "$BTC_PRICE > $BTC_ATH" | bc -l) )); then
+          echo "New ATH detected: $BTC_PRICE"
+
+          # Update the repository variable via GitHub REST API
+          curl -X PATCH \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/$REPO/actions/variables/BTC_ATH \
+            -d "{\"name\":\"BTC_ATH\",\"value\":\"$BTC_PRICE\"}"
+
+          # Update btcAth output for current run
+          echo "btcAth=$BTC_PRICE" >> $GITHUB_OUTPUT
+        else
+          echo "btcAth=$BTC_ATH" >> $GITHUB_OUTPUT
 
     - name: send telegram message on BTC lowering to minimum
       uses: appleboy/telegram-action@master
@@ -40,12 +58,12 @@ jobs:
 
     - name: send telegram message on BTC price
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice >= 80950 && steps.get-btc-price.outputs.btcPrice < 90000
+      if: ${{ steps.get-btc-price.outputs.btcPrice >= 80950 && steps.get-btc-price.outputs.btcPrice < 90000 }}
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          [BTC] - Current price: ${{ steps.get-btc-price.outputs.btcPrice }} USD - ${{ vars.BTC_ATH }}
+          [BTC] - Current price: ${{ steps.get-btc-price.outputs.btcPrice }} USD - ATH: ${{ steps.get-btc-price.outputs.btcAth }} USD
 
     - name: send telegram message on BTC rising to ATH
       uses: appleboy/telegram-action@master
