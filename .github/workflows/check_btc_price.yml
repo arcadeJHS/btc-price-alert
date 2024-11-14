@@ -55,7 +55,7 @@ jobs:
 
     - name: send telegram message on BTC lowering to minimum
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice <= ${{ env.BTC_MIN }}
+      if: steps.get-btc-price.outputs.btcPrice <= env.BTC_MIN
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
@@ -64,7 +64,7 @@ jobs:
 
     - name: send telegram message on BTC price
       uses: appleboy/telegram-action@master
-      if: ${{ steps.get-btc-price.outputs.btcPrice > env.BTC_MIN && steps.get-btc-price.outputs.btcPrice <= steps.get-btc-price.outputs.btcAth }}
+      if: steps.get-btc-price.outputs.btcPrice > env.BTC_MIN && steps.get-btc-price.outputs.btcPrice <= steps.get-btc-price.outputs.btcAth
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
