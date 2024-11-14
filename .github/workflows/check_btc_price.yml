@@ -17,6 +17,11 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      BTC_MIN: 80950  # Define the variable accessible by all steps
+      BTC_ATH: ${{ vars.BTC_ATH }}
+      TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      REPO: ${{ github.repository }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -24,10 +29,6 @@ jobs:
         node-version: 21
     - name: Getting BTC Price
       id: get-btc-price
-      env:
-        BTC_ATH: ${{ vars.BTC_ATH }}
-        TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
-        REPO: ${{ github.repository }}
       run: |
         BTC_PRICE=$(node ./getBtcPrice.js)
         echo "btcPrice=$BTC_PRICE" >> $GITHUB_OUTPUT
@@ -50,27 +51,27 @@ jobs:
 
     - name: send telegram message on BTC lowering to minimum
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice <= 80950
+      if: steps.get-btc-price.outputs.btcPrice <= ${{ env.BTC_MIN }}
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          [BTC] - !!! WARNING !!! - Lowest price reached - LOOSING: ${{ steps.get-btc-price.outputs.btcPrice }} USD
+          [BTC] - !!! WARNING !!! - Lowest price reached - LOSING: ${{ steps.get-btc-price.outputs.btcPrice }} USD
 
     - name: send telegram message on BTC price
       uses: appleboy/telegram-action@master
-      if: ${{ steps.get-btc-price.outputs.btcPrice >= 80950 && steps.get-btc-price.outputs.btcPrice < 90000 }}
+      if: ${{ steps.get-btc-price.outputs.btcPrice > env.BTC_MIN && steps.get-btc-price.outputs.btcPrice <= steps.get-btc-price.outputs.btcAth }}
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          [BTC] - Current price: ${{ steps.get-btc-price.outputs.btcPrice }} USD - ATH: ${{ steps.get-btc-price.outputs.btcAth }} USD
+          [BTC] - Current price: ${{ steps.get-btc-price.outputs.btcPrice }} USD
 
     - name: send telegram message on BTC rising to ATH
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice >= 91700
+      if: steps.get-btc-price.outputs.btcPrice > steps.get-btc-price.outputs.btcAth
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          [BTC] - \o/ New ATH \o/ ${{ steps.get-btc-price.outputs.btcPrice }} USD
+          [BTC] - \o/ New ATH \o/ ===> ${{ steps.get-btc-price.outputs.btcPrice }} USD
