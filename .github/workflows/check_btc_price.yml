@@ -46,6 +46,7 @@ jobs:
           echo "btcAth=$BTC_PRICE" >> $GITHUB_OUTPUT
         else
           echo "btcAth=$BTC_ATH" >> $GITHUB_OUTPUT
+        fi
 
     - name: send telegram message on BTC lowering to minimum
       uses: appleboy/telegram-action@master
