@@ -40,12 +40,12 @@ jobs:
 
     - name: send telegram message on BTC price
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice >= 80950 && steps.get-btc-price.outputs.btcPrice < 90000
+      if: steps.get-btc-price.outputs.btcPrice >= 80950 && steps.get-btc-price.outputs.btcPrice < 91000
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          [BTC] - Current price: ${{ steps.get-btc-price.outputs.btcPrice }} USD - ${{ vars.BTC_ATH }}
+          [BTC] - Current price: ${{ steps.get-btc-price.outputs.btcPrice }} USD
 
     - name: send telegram message on BTC rising to ATH
       uses: appleboy/telegram-action@master
