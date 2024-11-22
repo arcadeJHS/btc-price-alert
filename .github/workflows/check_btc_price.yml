@@ -33,6 +33,9 @@ jobs:
         BTC_PRICE=$(node ./getBtcPrice.js)
         echo "btcPrice=$BTC_PRICE" >> $GITHUB_OUTPUT
 
+        # Output the previous BTC_ATH value
+        echo "prevBtcAth=$BTC_ATH" >> $GITHUB_OUTPUT
+
         if (( $(echo "$BTC_PRICE > $BTC_ATH" | bc -l) )); then
           echo "New ATH detected: $BTC_PRICE"
 
@@ -49,33 +52,37 @@ jobs:
           echo "btcAth=$BTC_ATH" >> $GITHUB_OUTPUT
         fi
 
-        echo "Debug: BTC_MIN=$BTC_MIN"
-        echo "Debug: BTC_ATH=$BTC_ATH"
-        echo "Debug: BTC_CURRENT_PRICE=$BTC_PRICE"
-
     - name: send telegram message on BTC lowering to minimum
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice <= env.BTC_MIN
+      env:
+        CURENT_BTC_PRICE: ${{ steps.get-btc-price.outputs.btcPrice }}
+      if: env.CURENT_BTC_PRICE <= env.BTC_MIN
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          [BTC] - !!! WARNING !!! - Lowest price reached - LOSING: ${{ steps.get-btc-price.outputs.btcPrice }} USD
+          [BTC] - !!! WARNING !!! - Lowest price reached - LOSING: ${{ env.CURENT_BTC_PRICE }} USD
 
     - name: send telegram message on BTC price
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice > env.BTC_MIN && steps.get-btc-price.outputs.btcPrice < ${{ vars.BTC_ATH }}
+      env:
+        CURENT_BTC_PRICE: ${{ steps.get-btc-price.outputs.btcPrice }}
+        PREVIOUS_BTC_PRICE: ${{ steps.get-btc-price.outputs.prevBtcAth }}
+      if: env.CURENT_BTC_PRICE > env.BTC_MIN && env.CURENT_BTC_PRICE <= env.PREVIOUS_BTC_PRICE
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          [BTC] - Current price: ${{ steps.get-btc-price.outputs.btcPrice }} USD
+          [BTC] - Current price: ${{ env.CURENT_BTC_PRICE }} USD
 
     - name: send telegram message on BTC rising to ATH
       uses: appleboy/telegram-action@master
-      if: steps.get-btc-price.outputs.btcPrice > ${{ vars.BTC_ATH }}
+      env:
+        CURENT_BTC_PRICE: ${{ steps.get-btc-price.outputs.btcPrice }}
+        PREVIOUS_BTC_PRICE: ${{ steps.get-btc-price.outputs.prevBtcAth }}
+      if: env.CURENT_BTC_PRICE > env.PREVIOUS_BTC_PRICE
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
         message: |
-          [BTC] - \o/ New ATH \o/ ===> ${{ steps.get-btc-price.outputs.btcPrice }} USD
+          [BTC] - \o/ New ATH \o/ ===> ${{ env.CURENT_BTC_PRICE }} USD
