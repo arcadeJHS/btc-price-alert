@@ -52,6 +52,12 @@ jobs:
           echo "btcAth=$BTC_ATH" >> $GITHUB_OUTPUT
         fi
 
+    - name: Debugging BTC Price Variables
+      run: |
+        echo "Current BTC Price: ${{ steps.get-btc-price.outputs.btcPrice }}"
+        echo "BTC Min Price: ${{ env.BTC_MIN }}"
+        echo "Previous BTC ATH: ${{ steps.get-btc-price.outputs.prevBtcAth }}"
+
     - name: send telegram message on BTC lowering to minimum
       uses: appleboy/telegram-action@master
       env:
