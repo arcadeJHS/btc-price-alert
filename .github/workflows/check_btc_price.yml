@@ -57,8 +57,8 @@ jobs:
         echo "Current BTC Price: ${{ steps.get-btc-price.outputs.btcPrice }}"
         echo "BTC Min Price: ${{ env.BTC_MIN }}"
         echo "Previous BTC ATH: ${{ steps.get-btc-price.outputs.prevBtcAth }}"
-        echo "Condition 1: $(( ${{ steps.get-btc-price.outputs.btcPrice }} <= ${{ env.BTC_MIN }} ))"
-        echo "Condition 2: $(( ${{ steps.get-btc-price.outputs.btcPrice }} > ${{ env.BTC_MIN }} && ${{ steps.get-btc-price.outputs.btcPrice }} <= ${{ steps.get-btc-price.outputs.prevBtcAth }} ))"
+        echo "Condition 1: $(echo "${{ steps.get-btc-price.outputs.btcPrice }} <= ${{ env.BTC_MIN }}" | bc -l)"
+        echo "Condition 2: $(echo "${{ steps.get-btc-price.outputs.btcPrice }} > ${{ env.BTC_MIN }} && ${{ steps.get-btc-price.outputs.btcPrice }} <= ${{ steps.get-btc-price.outputs.prevBtcAth }}" | bc -l)"
 
     - name: send telegram message on BTC lowering to minimum
       uses: appleboy/telegram-action@master
