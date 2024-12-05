@@ -50,6 +50,7 @@ jobs:
           echo "btcAth=$BTC_PRICE" >> $GITHUB_OUTPUT
         else
           echo "btcAth=$BTC_ATH" >> $GITHUB_OUTPUT
+        fi
 
         if (( $(echo "$BTC_PRICE <= $BTC_MIN" | bc -l) )); then
           echo "SEND_MIN_MSG=true" >> $GITHUB_ENV
